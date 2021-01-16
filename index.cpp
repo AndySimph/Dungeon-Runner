@@ -3,7 +3,6 @@
 
 //Compile command
 //g++ *.cpp -lSDL2 -lGLEW -lGL
-//g++ *.cpp -lSDL2 -lGLEW -lGL -lglut
 
 //Libraries
 #include "game.h"

@@ -22,7 +22,7 @@ void projectile::draw(spriteBatch& spriteBatch) {
 
     //UV values
     glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-    static GLTexture texture = ResourceManager::getText("Textures/JimmyJump_pack/PNG/Bubble_Big.png");
+    static GLTexture texture = ResourceManager::getText("Textures/JimmyJump_pack/PNG/Bullet.png");
 
     //Set color values
     Color color;

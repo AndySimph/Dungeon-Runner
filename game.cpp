@@ -15,6 +15,10 @@ game::game() : _screenWidth(1024),
 //Deconstructor
 game::~game() {
 
+    for (int i = 0; i < _levels.size(); i++) {
+        delete _levels[i];
+    }
+
 }
 
 //function to run the game 
@@ -22,7 +26,10 @@ void game::run() {
     initSystems();
 
     //Loops until game has ended
-    gameLoop();
+    //gameLoop();
+
+    //_levels.push_back(new level("Levels/level1.txt"));
+
 }
 
 //Initialize the system
@@ -32,15 +39,15 @@ void game::initSystems() {
     init();
 
     //Create window
-    _window.create("Game Engine", _screenWidth, _screenHeight, 0);
+    _window.create("Dungeon Runner", _screenWidth, _screenHeight, 0);
 
     //function call to initialize shaders
     initShaders();
 
-    //Initialize sprite batch
-    _spriteBatch.init();
-
+    //Initialize fps limiter
     _fpsLimiter.init(_maxFPS);
+
+    _levels.push_back(new level("Levels/level1.txt"));
 
     return;
 }
@@ -71,16 +78,6 @@ void game::gameLoop() {
 
         //Update camera
         _cam.update();
-
-        //Update all the bullets
-        for (int i = 0; i < _projectiles.size();) {
-            if (_projectiles[i].update()) {
-                _projectiles[i] = _projectiles.back();
-                _projectiles.pop_back();
-            } else {
-                i++;
-            }
-        }
 
         //Draw the board
         draw();
@@ -181,15 +178,6 @@ void game::processInput() {
         glm::vec2 mouseCoords = _inputManager.getMouseCoord();
         mouseCoords = _cam.convertScreenToWorld(mouseCoords);
         //std::cout<<mouseCoords.x<<" "<<mouseCoords.y<< std::endl;
-
-        //Set player position and the direction of the mouse from the player
-        glm::vec2 playerPos(0, 0);
-        glm::vec2 dirFromPlayer = mouseCoords - playerPos;
-        dirFromPlayer = glm::normalize(dirFromPlayer);
-
-        //Emplace back the projectile
-        _projectiles.emplace_back(playerPos, dirFromPlayer, 1.0f, 1000);
-
     }
 
 
@@ -207,9 +195,9 @@ void game::draw() {
     _colorProg.enable();
 
     //Bind the texture
-    glActiveTexture(GL_TEXTURE0);
-    GLint textureLocation = _colorProg.getuniformLocation("textureSampler");
-    glUniform1i(textureLocation, 0);
+    // glActiveTexture(GL_TEXTURE0);
+    // GLint textureLocation = _colorProg.getuniformLocation("textureSampler");
+    // glUniform1i(textureLocation, 0);
 
     //Set the time location using time
     // GLuint timeLocation = _colorProg.getuniformLocation("time");
@@ -220,39 +208,6 @@ void game::draw() {
     glm::mat4 cameraMatrix = _cam.getCam();
 
     glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
-    //Begin current sprite batch
-    _spriteBatch.begin();
-
-    //Create sprite batch values
-    glm::vec4 pos(0.0f, 0.0f, 50, 50);
-    glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-    GLTexture texture = ResourceManager::getText("Textures/JimmyJump_pack/PNG/Bubble_Big.png");
-
-    //Set color values
-    Color color;
-    color.r = 255;
-    color.g = 255;
-    color.b = 255;
-    color.a = 255;
-
-    //Draw sprites
-    _spriteBatch.draw(pos, uv, texture.id, 0.0f, color);
-    _spriteBatch.draw(pos + glm::vec4(100, 100, 0, 0), uv, texture.id, 0.0f, color);
-
-    //Draw the projectiles
-    for (int i = 0; i < _projectiles.size(); i++) {
-        _projectiles[i].draw(_spriteBatch);
-    }
-
-    //Post process sprite data
-    _spriteBatch.end();
-
-    //Render sprite batches
-    _spriteBatch.renderBatch();
-
-    //Unbind the texture
-    glBindTexture(GL_TEXTURE_2D, 0);
 
     //Disable the shaders
     _colorProg.disable();

@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
+//Klyengine files
 #include "sprite.h"
 #include "GLTexture.h"
 #include "error.h"
@@ -18,6 +19,12 @@
 #include "spriteBatch.h"
 #include "inputManager.h"
 #include "timing.h"
+
+//Custom files for Dungeon Runner
+#include "agent.h"
+#include "player.h"
+#include "entity.h"
+#include "level.h"
 #include "projectile.h"
 
 #pragma once
@@ -45,18 +52,12 @@ class game{
         float _maxFPS;
         
         gameState _gameState;
-
         GLSLProgram _colorProg;
-
+        fpsLimiter _fpsLimiter;
         camera2D _cam;
-
-        spriteBatch _spriteBatch;
-
         inputManager _inputManager;
 
-        fpsLimiter _fpsLimiter;
-
-        std::vector<projectile> _projectiles;
+        std::vector<level*> _levels;
 
         //Functions
         void initSystems();
