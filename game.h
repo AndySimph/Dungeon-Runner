@@ -58,6 +58,7 @@ class game{
         inputManager _inputManager;
 
         std::vector<level*> _levels;
+        int _currLevel;
 
         //Functions
         void initSystems();

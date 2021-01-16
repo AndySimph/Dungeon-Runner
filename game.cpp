@@ -26,7 +26,7 @@ void game::run() {
     initSystems();
 
     //Loops until game has ended
-    //gameLoop();
+    gameLoop();
 
     //_levels.push_back(new level("Levels/level1.txt"));
 
@@ -48,6 +48,8 @@ void game::initSystems() {
     _fpsLimiter.init(_maxFPS);
 
     _levels.push_back(new level("Levels/level1.txt"));
+
+    _currLevel = 0;
 
     return;
 }
@@ -195,9 +197,9 @@ void game::draw() {
     _colorProg.enable();
 
     //Bind the texture
-    // glActiveTexture(GL_TEXTURE0);
-    // GLint textureLocation = _colorProg.getuniformLocation("textureSampler");
-    // glUniform1i(textureLocation, 0);
+    glActiveTexture(GL_TEXTURE0);
+    GLint textureLocation = _colorProg.getuniformLocation("textureSampler");
+    glUniform1i(textureLocation, 0);
 
     //Set the time location using time
     // GLuint timeLocation = _colorProg.getuniformLocation("time");
@@ -208,6 +210,9 @@ void game::draw() {
     glm::mat4 cameraMatrix = _cam.getCam();
 
     glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+
+    _levels[_currLevel]->draw();
 
     //Disable the shaders
     _colorProg.disable();
