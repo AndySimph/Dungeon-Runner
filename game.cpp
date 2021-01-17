@@ -8,7 +8,8 @@ game::game() : _screenWidth(1024),
                 _screenHeight(768), 
                 _gameState(gameState::PLAY), 
                 _time(0.0f), 
-                _maxFPS(60.0f) {
+                _maxFPS(60.0f), 
+                _player(nullptr) {
     _cam.init(_screenWidth, _screenHeight);
 }
 
@@ -23,12 +24,15 @@ game::~game() {
 
 //function to run the game 
 void game::run() {
+    
+    //Initialize the system
     initSystems();
+
+    //Initialize the level
+    initLevel();
 
     //Loops until game has ended
     gameLoop();
-
-    //_levels.push_back(new level("Levels/level1.txt"));
 
 }
 
@@ -40,6 +44,7 @@ void game::initSystems() {
 
     //Create window
     _window.create("Dungeon Runner", _screenWidth, _screenHeight, 0);
+    glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 
     //function call to initialize shaders
     initShaders();
@@ -47,9 +52,7 @@ void game::initSystems() {
     //Initialize fps limiter
     _fpsLimiter.init(_maxFPS);
 
-    _levels.push_back(new level("Levels/level1.txt"));
-
-    _currLevel = 0;
+    _agentSpriteBatch.init();
 
     return;
 }
@@ -77,6 +80,12 @@ void game::gameLoop() {
 
         //Increment time
         _time += 0.01;
+
+        //Update player
+        updateAgents();
+
+        //Set camera position on player
+        _cam.setPos(_player->getPos());
 
         //Update camera
         _cam.update();
@@ -211,8 +220,17 @@ void game::draw() {
 
     glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
-
+    //Draw the level
     _levels[_currLevel]->draw();
+
+    _agentSpriteBatch.begin();
+
+    //Draw the player
+    _player->draw(_agentSpriteBatch);
+
+    _agentSpriteBatch.end();
+
+    _agentSpriteBatch.renderBatch();
 
     //Disable the shaders
     _colorProg.disable();
@@ -223,3 +241,26 @@ void game::draw() {
     return;
 }
 
+//Initialize level 
+void game::initLevel() {
+
+    //Push level 1
+    _levels.push_back(new level("Levels/level1.txt"));
+    _currLevel = 0;
+
+    //Add player
+    _player = new player();
+    _player->init(4.0f, _levels[_currLevel]->getStartPlayerPos(), &_inputManager);
+
+    return;
+}
+
+//Function to update all agents
+void game::updateAgents() {
+
+    //Update player
+    _player->update();
+
+
+    return;
+}

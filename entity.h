@@ -11,6 +11,9 @@ class entity : public agent {
         entity();
         ~entity();
 
+        //Virtual update
+        virtual void update();
+
     private:
 
 };

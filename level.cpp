@@ -24,9 +24,11 @@ level::level(const std::string& fileName) {
         _levelData.push_back(temp);
     }
 
+    //Initalize and begin the sprite batch
     _spriteBatch.init();
     _spriteBatch.begin();
 
+    //Set spritebatch values
     glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
     Color color;
     color.r = 255;
@@ -53,12 +55,16 @@ level::level(const std::string& fileName) {
                 _spriteBatch.draw(destRect, uvRect, ResourceManager::getText("Textures/JimmyJump_pack/PNG/red_bricks.png").id, 0.0f, color);
 
                 break;
+
+            //Player tile
             case '@':
 
                 _startPlayerPos.x = j * TILE_WIDTH;
                 _startPlayerPos.y = i * TILE_WIDTH;
             
                 break;
+
+            //Entity tile
             case 'Z':
 
                 _startEntityPos.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH);

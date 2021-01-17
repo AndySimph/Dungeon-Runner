@@ -54,7 +54,7 @@ int window::create(std::string windowName, int screenWidth, int screenHeight, un
     //std::printf("*** OpenGL version: %s *** \n", glGetString(GL_VERSION));
 
     //Set background of window
-    glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     //V-Sync settings
     SDL_GL_SetSwapInterval(0);

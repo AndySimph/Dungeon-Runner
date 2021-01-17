@@ -20,7 +20,12 @@ class level {
         level(const std::string& fileName);
         ~level();
 
+        //Draw function
         void draw();
+
+        //Getters
+        glm::vec2 getStartPlayerPos() const { return _startPlayerPos; };
+        const std::vector<glm::vec2> getStartEntityPos() const { return _startEntityPos; };
 
     private:
         std::vector<std::string> _levelData;

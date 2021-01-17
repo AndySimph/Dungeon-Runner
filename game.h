@@ -19,9 +19,10 @@
 #include "spriteBatch.h"
 #include "inputManager.h"
 #include "timing.h"
+#include "spriteBatch.h"
 
 //Custom files for Dungeon Runner
-#include "agent.h"
+//#include "agent.h"
 #include "player.h"
 #include "entity.h"
 #include "level.h"
@@ -60,12 +61,18 @@ class game{
         std::vector<level*> _levels;
         int _currLevel;
 
+        player* _player;
+
+        spriteBatch _agentSpriteBatch;
+
         //Functions
         void initSystems();
         void initShaders();
         void gameLoop();
         void processInput();
         void draw();
+        void initLevel();
+        void updateAgents();
 
 };
 

@@ -12,3 +12,10 @@ entity::entity() {
 entity::~entity() {
 
 }
+
+//Function to update entity
+void entity::update() {
+
+
+    return;
+}
