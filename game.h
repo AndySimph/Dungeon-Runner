@@ -65,6 +65,8 @@ class game{
 
         spriteBatch _agentSpriteBatch;
 
+        std::vector<projectile> _projectiles;
+
         //Functions
         void initSystems();
         void initShaders();

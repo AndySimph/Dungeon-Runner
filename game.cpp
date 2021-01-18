@@ -90,6 +90,16 @@ void game::gameLoop() {
         //Update camera
         _cam.update();
 
+        //Update all the bullets
+        for (int i = 0; i < _projectiles.size();) {
+            if (_projectiles[i].update()) {
+                _projectiles[i] = _projectiles.back();
+                _projectiles.pop_back();
+            } else {
+                i++;
+            }
+        }
+
         //Draw the board
         draw();
         
@@ -189,6 +199,14 @@ void game::processInput() {
         glm::vec2 mouseCoords = _inputManager.getMouseCoord();
         mouseCoords = _cam.convertScreenToWorld(mouseCoords);
         //std::cout<<mouseCoords.x<<" "<<mouseCoords.y<< std::endl;
+
+        //Set player position and the direction of the mouse from the player
+        glm::vec2 dirFromPlayer = mouseCoords - _player->getPos();
+        dirFromPlayer = glm::normalize(dirFromPlayer);
+
+        //Emplace back the projectile
+        _projectiles.emplace_back(_player->getPos(), dirFromPlayer, 1.0f, 1000);
+
     }
 
 
@@ -227,6 +245,12 @@ void game::draw() {
 
     //Draw the player
     _player->draw(_agentSpriteBatch);
+
+    //Draw the projectiles
+    for (int i = 0; i < _projectiles.size(); i++) {
+        _projectiles[i].draw(_agentSpriteBatch);
+    }
+
 
     _agentSpriteBatch.end();
 
