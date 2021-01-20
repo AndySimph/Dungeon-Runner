@@ -18,7 +18,9 @@ class player : public agent {
         void init(float speed, glm::vec2 pos, inputManager* inputManager);
 
         //Update the player
-        void update();
+        void update(std::vector<std::string>& levelData,
+                    std::vector<player*>& player,
+                    std::vector<entity*>& entities);
 
     private:
         inputManager* _inputManager;

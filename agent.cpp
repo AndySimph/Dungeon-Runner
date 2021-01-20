@@ -35,3 +35,9 @@ void agent::draw(spriteBatch& spriteBatch) {
 
     return;
 }
+
+//Function to check collistion with the level
+void agent::levelCollision(const std::vector<std::string>& levelData) {
+
+    return;
+}

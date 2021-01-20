@@ -29,7 +29,9 @@ void player::init(float speed, glm::vec2 pos, inputManager* inputManager) {
 }
 
 //Function to update the player
-void player::update() {
+void player::update(std::vector<std::string>& levelData,
+                    std::vector<player*>& player,
+                    std::vector<entity*>& entities) {
 
     //Move the player up or down
     if (_inputManager->iskeypressed(SDLK_w)) {
