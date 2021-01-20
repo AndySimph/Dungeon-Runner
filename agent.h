@@ -28,6 +28,7 @@ class agent {
                             std::vector<player*>& player,
                             std::vector<entity*>& entities) = 0;
 
+        //Function for level collision
         void levelCollision(const std::vector<std::string>& levelData);
 
         //Getters
@@ -39,5 +40,7 @@ class agent {
         glm::vec2 _pos;
         float _speed;
         Color _color;
+
+        void checkTilePos(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
 
 };

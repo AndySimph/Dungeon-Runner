@@ -3,6 +3,7 @@
 //Libraries
 #include "agent.h"
 #include "ResourceManager.h"
+#include "level.h"
 
 //Constructor
 agent::agent() {
@@ -38,6 +39,27 @@ void agent::draw(spriteBatch& spriteBatch) {
 
 //Function to check collistion with the level
 void agent::levelCollision(const std::vector<std::string>& levelData) {
+
+    std::vector<glm::vec2> collideTilePos;
+
+    //Check each corner
+    checkTilePos(levelData, collideTilePos, _pos.x, _pos.y);
+    checkTilePos(levelData, collideTilePos, _pos.x + AGENT_WIDTH, _pos.y);
+    checkTilePos(levelData, collideTilePos, _pos.x, _pos.y + AGENT_WIDTH);
+    checkTilePos(levelData, collideTilePos, _pos.x + AGENT_WIDTH, _pos.y + AGENT_WIDTH);
+
+    return;
+}
+
+//Function to check the tile position
+void agent::checkTilePos(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y) {
+
+    glm::vec2 cornerPos = glm::vec2(floor(x / (float)TILE_WIDTH),
+                                        floor(y / (float)TILE_WIDTH));
+
+    if (levelData[cornerPos.y][cornerPos.x] != '.') {
+        collideTilePos.push_back(cornerPos + glm::vec2((float)TILE_WIDTH/2.0f));
+    }
 
     return;
 }
