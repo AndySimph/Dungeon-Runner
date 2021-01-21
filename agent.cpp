@@ -63,3 +63,8 @@ void agent::checkTilePos(const std::vector<std::string>& levelData, std::vector<
 
     return;
 }
+
+//Function to collide the tiles
+void agent::collideTile(glm::vec2 tilePos) {
+
+}

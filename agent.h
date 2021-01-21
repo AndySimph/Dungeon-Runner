@@ -43,4 +43,6 @@ class agent {
 
         void checkTilePos(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
 
+        void collideTile(glm::vec2 tilePos);
+
 };
