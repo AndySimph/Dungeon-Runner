@@ -47,5 +47,8 @@ void player::update(std::vector<std::string>& levelData,
         _pos.x += _speed;
     }
 
+    //Check for level collision
+    levelCollision(levelData);
+
     return;
 }
